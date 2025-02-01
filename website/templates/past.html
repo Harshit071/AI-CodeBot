@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if code %}
+  {% for thing in code %}
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Original Code</h5>
+        <pre><code class="language-{{ thing.language }}">{{ thing.question }}</code></pre>
+        
+        <h5 class="card-title mt-4">AI Response</h5>
+        <pre><code class="language-{{ thing.language }}">{{ thing.code_answer }}</code></pre>
+        
+        <form method="POST" action="{% url 'delete_past' thing.id %}" class="mt-3">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger btn-sm">
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <div class="alert alert-info">No past entries found.</div>
+{% endif %}
+
+{% endblock %}
